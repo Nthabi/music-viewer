@@ -3,19 +3,32 @@ import { Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 import './App.css';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            query: ''
+        }
+    }
+
+    search() {
+        
+        const BASE_URL = 'https://api.spotify.com/v1/search?';
+        const FETCH_URL = BASE_URL + 'q=' + this.state.query + '&type=artist&limit=1';
+        console.log('url: ', FETCH_URL);
+    }
+
     render() {
         return(
             <div className="container">
-                <title>Music app</title>
+                <h1>Music app</h1>
                 <FormGroup>
                     <InputGroup>
-                        <FormControl type="text" placeholder="Search for an artist"/>
+                        <FormControl type="text" placeholder="Search for an artist" value={this.state.query} 
+                        onChange={event=>{this.setState({query: event.target.value})}}/>
                     </InputGroup>
-                    {/* <InputGroup.Addon>
-                        <Glyphicon glyph="search"></Glyphicon>
-                    </InputGroup.Addon> */}
+                   
                 </FormGroup>
-                <Button variant="outline-dark">Search</Button>
+                <Button variant="outline-dark" onClick={() => this.search()}>Search</Button>
                 <div className="profile">
                     <div>Artist picture</div>
                     <h5>Artist name</h5>
@@ -30,3 +43,5 @@ class App extends Component {
 }
 
 export default App;
+
+// onChange is used to grap the contents of the input box

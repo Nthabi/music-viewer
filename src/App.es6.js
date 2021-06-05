@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import { Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 import axios from 'axios';
 import './App.css';
+import Profile from './Profile.es6';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             query: '',
-            artist: ''
+            artistName: '',
+            picture: '',
+            followers: ''
         }
     }
 
@@ -20,7 +23,10 @@ class App extends Component {
           
           axios(options)
             .then(response => {
-              console.log(response.data);
+                const artistName = response.data.artists.items[0].name;
+                const followers = response.data.artists.items[0].followers.total;
+                this.setState({artistName, followers})
+              console.log(response.data.artists);
             });
         
     }
@@ -39,7 +45,10 @@ class App extends Component {
                 <Button variant="outline-dark" onClick={() => this.search()}>Search</Button>
                 <div className="profile">
                     <div>Artist picture</div>
-                    <h5>Artist name</h5>
+                    
+                    <Profile 
+                        artistName={this.state.artistName}
+                        followers={this.state.followers}/>
                 </div>
                 <section className="gallery">
                     Gallery

@@ -10,7 +10,7 @@ class App extends Component {
         this.state = {
             query: '',
             artistName: '',
-            picture: '',
+            img: '',
             followers: ''
         }
     }
@@ -25,7 +25,8 @@ class App extends Component {
             .then(response => {
                 const artistName = response.data.artists.items[0].name;
                 const followers = response.data.artists.items[0].followers.total;
-                this.setState({artistName, followers})
+                const img = response.data.artists.items[0].images[0].url;
+                this.setState({artistName, followers, img});
               console.log(response.data.artists);
             });
         
@@ -44,11 +45,10 @@ class App extends Component {
                 </FormGroup>
                 <Button variant="outline-dark" onClick={() => this.search()}>Search</Button>
                 <div className="profile">
-                    <div>Artist picture</div>
-                    
                     <Profile 
                         artistName={this.state.artistName}
-                        followers={this.state.followers}/>
+                        followers={this.state.followers}
+                        img={this.state.img}/>
                 </div>
                 <section className="gallery">
                     Gallery

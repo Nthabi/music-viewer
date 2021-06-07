@@ -8,26 +8,30 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            artists: '',
             query: '',
             artistName: '',
             img: '',
-            followers: ''
+            followers: '',
+            genre: []
         }
     }
 
     search() {
         const options = {
-            url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=artist&limit=1&access_token=BQAvXeTwWORXBfTAIDCcHBLlTyHUZ9pShNFjzd48gNFz-TN2GPH8MrxXQimM_oKDYg3GmGVfkGLsB0PaMXrlbm7myTyme2e_7x2dGs8dI1HW1OhFnzjmjh-WilKymp63ue1j8JCkdbnkSlV_TAcUPcHM1nnC8DI`,
+            url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=artist&limit=1&access_token=BQC2YerLmclonqf3jio-iaEh5_DyUl7BP48WLMZb9_Jv17HvauNpvRYONy1LcrNXI6B4u2UtP56nbg1l88qeebtguZmZyK2mtfNp92Nh62e2aQQfvPO0ggKVw23Y_XpGISf0EIcI0xmUseCq27WaLMT6eqAfexM`,
             method: 'GET'
           };
           
           axios(options)
             .then(response => {
+                const artistsInfo = response.data.artists;
                 const artistName = response.data.artists.items[0].name;
                 const followers = response.data.artists.items[0].followers.total;
                 const img = response.data.artists.items[0].images[0].url;
-                this.setState({artistName, followers, img});
-              console.log(response.data.artists);
+                const genre = response.data.artists.items[0].genres;
+                this.setState({artistName, followers, img, genre});
+              console.log(artistsInfo);
             });
         
     }
@@ -44,15 +48,22 @@ class App extends Component {
                    
                 </FormGroup>
                 <Button variant="outline-dark" onClick={() => this.search()}>Search</Button>
-                <div className="profile">
+                {
+                    this.state.artistsInfo !== null ?
+                    <div>
+                        <div className="profile">
                     <Profile 
+                        artists={this.state.artistsInfo}
                         artistName={this.state.artistName}
                         followers={this.state.followers}
                         img={this.state.img}/>
-                </div>
-                <section className="gallery">
-                    Gallery
-                </section>
+                    </div>
+                    <section className="gallery">
+                        Gallery
+                    </section> 
+                    </div>
+                    : <div></div>
+                }
             </div>
             
         )

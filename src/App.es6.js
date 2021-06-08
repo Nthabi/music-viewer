@@ -2,24 +2,27 @@ import React, {Component} from 'react';
 import { Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 import axios from 'axios';
 import './App.css';
-import Profile from './Profile.es6';
+import Profile from './components/profile/Profile.es6';
 
 class App extends Component {
+     access_token = 'BQA0D8RPggwzxLP79-6b3Xux1aDKLsqZn3zeQm7NKxjm5ML_jqDxIOyrOYzwicRHhIQ1OJ88KfIoi6GAgMeV-4KUG-JzeLnUY7ds7cDfKhAnySMcVtFWiToKdinjoTAz9yLj1t3sn7tgfRBQIAMghYuaGvWD0Ak';
+
     constructor(props) {
         super(props);
         this.state = {
             artists: '',
+            artistId: '',
             query: '',
             artistName: '',
             img: '',
             followers: '',
             genre: []
-        }
+        };
     }
 
     search() {
         const options = {
-            url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=artist&limit=1&access_token=BQC2YerLmclonqf3jio-iaEh5_DyUl7BP48WLMZb9_Jv17HvauNpvRYONy1LcrNXI6B4u2UtP56nbg1l88qeebtguZmZyK2mtfNp92Nh62e2aQQfvPO0ggKVw23Y_XpGISf0EIcI0xmUseCq27WaLMT6eqAfexM`,
+            url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=artist&limit=1&access_token=${this.access_token}`,
             method: 'GET'
           };
           
@@ -27,6 +30,7 @@ class App extends Component {
             .then(response => {
                 const artistsInfo = response.data.artists;
                 const artistName = response.data.artists.items[0].name;
+                const artistId = response.data.artists.items[0].id;
                 const followers = response.data.artists.items[0].followers.total;
                 const img = response.data.artists.items[0].images[0].url;
                 const genre = response.data.artists.items[0].genres;
@@ -36,7 +40,20 @@ class App extends Component {
         
     }
 
+    getTopTracks() {
+        const options = {
+            url: `https://api.spotify.com/v1/artists/${this.state.artistId}/top-tracks?country=US&access_token=${this.access_token}`,
+            method: 'GET'
+        };
+        axios(options)
+            .then(response => {
+                console.log(response.data);
+            });
+    }
+
+
     render() {
+        
         return(
             <div className="container">
                 <h1>Music app</h1>
@@ -47,7 +64,7 @@ class App extends Component {
                     </InputGroup>
                    
                 </FormGroup>
-                <Button variant="outline-dark" onClick={() => this.search()}>Search</Button>
+                <Button variant="outline-dark" onClick={() => this.search(), this.getTopTracks()}>Search</Button>
                 {
                     this.state.artistsInfo !== null ?
                     <div>

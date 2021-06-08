@@ -3,6 +3,7 @@ import { Button, FormControl, FormGroup, InputGroup} from 'react-bootstrap';
 import axios from 'axios';
 import './App.css';
 import Profile from './components/profile/Profile.es6';
+import Gallery from './components/gallery/Gallery.es6';
 
 class App extends Component {
      access_token = 'BQCAF8eA-y79VeixFuQwYwUzCBgTn0kK9pWc8esaEJe4CA1PdPKFqqMlh0wQFntkHTRfMmMcPzleJoClT0B7cLrH6ukwejmal51UdSwoxTGgFReR0heeTLPgwIWN_AOf3AOV6aCq1t1ReqzwKaEW7R3cl6siPSU';
@@ -10,7 +11,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            artists: '',
+            artist: '',
             artistId: '',
             query: '',
             artistName: '',
@@ -38,6 +39,12 @@ class App extends Component {
     // }
      
     search() {
+        // const ARTIST_URL = `https://api.spotify.com/v1/search`;
+        // const SEARCH_ARTIST_REQ = `${ARTIST_URL}?q=${this.state.query}&type=artist&limit=1&access_token=${this.access_token}`;
+        // const ALBUM_URL = `https://api.spotify.com/v1/artists`;
+        // const SEARCH_TOP_TRACKS_REQ = `${ALBUM_URL}`
+
+
         const options = {
             url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=artist&limit=1&access_token=${this.access_token}`,
             method: 'GET'
@@ -45,16 +52,15 @@ class App extends Component {
           
           axios(options)
             .then(response => {
-                const artistsInfo = response.data.artists;
-                const artistName = response.data.artists.items[0].name;
-                const artistId = response.data.artists.items[0].id;
-                const followers = response.data.artists.items[0].followers.total;
-                const img = response.data.artists.items[0].images[0].url;
-                const genre = response.data.artists.items[0].genres;
-                this.setState({artistName, followers, img, genre});
-              console.log(artistsInfo);
-            });
-        
+                const artist = response.data;
+                // const artistName = response.data.artists.items[0].name;
+                // const artistId = response.data.artists.items[0].id;
+                // const followers = response.data.artists.items[0].followers.total;
+                // const img = response.data.artists.items[0].images[0].url;
+                // const genre = response.data.artists.items[0].genres;
+                this.setState({artist: artist});
+              console.log(artist);
+            }); 
     }
 
     getTopTracks() {
@@ -80,19 +86,20 @@ class App extends Component {
                     </InputGroup>
                    
                 </FormGroup>
-                <Button variant="outline-dark" onClick={() => this.getTopTracks()}>Search</Button>
+                <Button variant="outline-dark" onClick={() => this.search()}>Search</Button>
                 {
-                    this.state.artistsInfo !== null ?
+                    this.state.artist !== null ?
                     <div>
                         <div className="profile">
                     <Profile 
-                        artists={this.state.artistsInfo}
-                        artistName={this.state.artistName}
-                        followers={this.state.followers}
-                        img={this.state.img}/>
+                        artists={this.state.artists}
+                        // artistName={this.state.artists}
+                        // followers={this.state.followers}
+                        // img={this.state.img}
+                        />
                     </div>
                     <section className="gallery">
-                        Gallery
+                        <Gallery/>
                     </section> 
                     </div>
                     : <div></div>

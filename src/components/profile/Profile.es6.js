@@ -5,8 +5,8 @@ class Profile extends Component {
         super(props);
     }
     render() {
-        // const artist = {name: '', followers: {total: ''}, images: [{url: ''}], genres: []};
-        // const artists = this.props.artists;
+        const artist = {name: '', followers: {total: ''}, images: [{url: ''}], genres: []};
+        const artists = this.props.artists;
         // console.log(this.props.artists.genres);
         return (
             <div>

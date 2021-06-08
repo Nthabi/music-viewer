@@ -20,6 +20,23 @@ class App extends Component {
         };
     }
 
+    searchAndTopTracks(){
+        search = ``;
+        topTracks = ``;
+    
+        searchRequest = axios.get(this.search);
+        topTracksRequest = axios.get(this.topTracks);
+
+        axios.all([searchRequest, topTracksRequest])
+            .then(axios.spread((...responses => {
+                const searchResult = responses[0];
+                const topTracksResult = responses[1];
+        })))
+            .catch(errors => {
+                console.error(errors);
+            });
+    }
+     
     search() {
         const options = {
             url: `https://api.spotify.com/v1/search?q=${this.state.query}&type=artist&limit=1&access_token=${this.access_token}`,
@@ -53,7 +70,6 @@ class App extends Component {
 
 
     render() {
-        
         return(
             <div className="container">
                 <h1>Music app</h1>

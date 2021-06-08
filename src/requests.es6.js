@@ -8,3 +8,7 @@ export function login() {
           '&redirect_uri=' + encodeURIComponent(redirect_uri));
         });
 }
+
+export function search() {}
+
+export function getTopTracks() {}

@@ -5,8 +5,8 @@ import './App.css';
 import Profile from './components/profile/Profile.es6';
 
 class App extends Component {
-     access_token = 'BQA0D8RPggwzxLP79-6b3Xux1aDKLsqZn3zeQm7NKxjm5ML_jqDxIOyrOYzwicRHhIQ1OJ88KfIoi6GAgMeV-4KUG-JzeLnUY7ds7cDfKhAnySMcVtFWiToKdinjoTAz9yLj1t3sn7tgfRBQIAMghYuaGvWD0Ak';
-
+     access_token = 'BQCAF8eA-y79VeixFuQwYwUzCBgTn0kK9pWc8esaEJe4CA1PdPKFqqMlh0wQFntkHTRfMmMcPzleJoClT0B7cLrH6ukwejmal51UdSwoxTGgFReR0heeTLPgwIWN_AOf3AOV6aCq1t1ReqzwKaEW7R3cl6siPSU';
+     artistId= '0z4gvV4rjIZ9wHck67ucSV';
     constructor(props) {
         super(props);
         this.state = {
@@ -20,22 +20,22 @@ class App extends Component {
         };
     }
 
-    searchAndTopTracks(){
-        search = ``;
-        topTracks = ``;
+    // searchAndTopTracks(){
+    //     search = ``;
+    //     topTracks = ``;
     
-        searchRequest = axios.get(this.search);
-        topTracksRequest = axios.get(this.topTracks);
+    //     searchRequest = axios.get(this.search);
+    //     topTracksRequest = axios.get(this.topTracks);
 
-        axios.all([searchRequest, topTracksRequest])
-            .then(axios.spread((...responses => {
-                const searchResult = responses[0];
-                const topTracksResult = responses[1];
-        })))
-            .catch(errors => {
-                console.error(errors);
-            });
-    }
+    //     axios.all([searchRequest, topTracksRequest])
+    //         .then(axios.spread((...responses => {
+    //             const searchResult = responses[0];
+    //             const topTracksResult = responses[1];
+    //     })))
+    //         .catch(errors => {
+    //             console.error(errors);
+    //         });
+    // }
      
     search() {
         const options = {
@@ -59,7 +59,7 @@ class App extends Component {
 
     getTopTracks() {
         const options = {
-            url: `https://api.spotify.com/v1/artists/${this.state.artistId}/top-tracks?country=US&access_token=${this.access_token}`,
+            url: `https://api.spotify.com/v1/artists/${this.artistId}/top-tracks?country=SA&access_token=${this.access_token}`,
             method: 'GET'
         };
         axios(options)
@@ -80,7 +80,7 @@ class App extends Component {
                     </InputGroup>
                    
                 </FormGroup>
-                <Button variant="outline-dark" onClick={() => this.search(), this.getTopTracks()}>Search</Button>
+                <Button variant="outline-dark" onClick={() => this.getTopTracks()}>Search</Button>
                 {
                     this.state.artistsInfo !== null ?
                     <div>

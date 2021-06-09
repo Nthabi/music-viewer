@@ -1,0 +1,13 @@
+.track {
+    width: 20%;
+    height: 20%;
+    border-radius: 20%;
+    text-align: left;
+}
+
+.track-img {
+    width: 20%;
+    height: 20%;
+    border-radius: 20%;
+    object-fit: cover;
+}
